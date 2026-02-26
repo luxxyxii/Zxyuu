@@ -346,7 +346,7 @@ body {
 }
 
 .social-btn.roblox {
-    background: #FF0045;  /* Warna merah khas Roblox */
+    background: #FF0045;
     color: white;
     box-shadow: 0 0 20px rgba(255, 0, 69, 0.5);
 }
@@ -354,11 +354,6 @@ body {
 .social-btn.roblox:hover {
     transform: translateY(-5px);
     box-shadow: 0 0 40px rgba(255, 0, 69, 0.8);
-}
-
-.social-btn.roblox i {
-    font-family: "Font Awesome 6 Brands";
-    content: "\f17b";  ·/ Ini akan menampilkan icon gamepad sebagai alternatif
 }
 
 /* About Text */
@@ -409,4 +404,293 @@ body {
         width: 100%;
         justify-content: center;
     }
+}
+
+/* ========== TAMBAHAN CSS UNTUK EFEK GELOMBANG ========== */
+/* Taruh semua kode tambahan di sini, di bagian bawah */
+
+/* Tambahan untuk efek gelombang air */
+.wave-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 255, 255, 0.3);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: screen;
+}
+
+/* Efek ripple saat klik (untuk fallback jika canvas belum load) */
+.ripple-effect {
+    position: fixed;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,255,0.5) 0%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple-animation 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 9998;
+    mix-blend-mode: screen;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: translate(-50%, -50%) scale(20);
+        opacity: 0;
+    }
+}
+
+/* Tambahan efek untuk partikel yang terkena gelombang */
+.particle-burst {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: #00ffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9997;
+    box-shadow: 0 0 10px #00ffff;
+    animation: burst-fade 0.5s ease-out forwards;
+}
+
+@keyframes burst-fade {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Efek loading untuk canvas */
+.canvas-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0a0a0f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    transition: opacity 0.5s;
+}
+
+.canvas-loading.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid transparent;
+    border-top-color: #00ffff;
+    border-right-color: #ff00ff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 20px #00ffff;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Peningkatan efek neon untuk interaksi */
+.profile-wrapper:active .profile-img {
+    transform: scale(0.95);
+    box-shadow: 0 0 80px rgba(0, 255, 255, 1);
+}
+
+/* Efek gelombang pada judul saat interaksi */
+.neon-text.wave-active {
+    animation: wave-text 0.5s ease-out;
+}
+
+@keyframes wave-text {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 80px #ff00ff; }
+}
+
+/* Tooltip untuk instruksi */
+.instruction-tooltip {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid #00ffff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #00ffff;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+    animation: tooltip-pulse 2s infinite;
+    white-space: nowrap;
+}
+
+@keyframes tooltip-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.6); }
+}
+
+.instruction-tooltip i {
+    font-size: 1.2rem;
+}
+
+/* Media query untuk mobile (sembunyikan tooltip di layar kecil) */
+@media (max-width: 768px) {
+    .instruction-tooltip {
+        display: none;
+    }
+}
+
+/* Efek khusus untuk popup saat ada gelombang */
+.popup-menu.show {
+    backdrop-filter: blur(10px) brightness(1.2);
+}
+
+/* Peningkatan animasi untuk close button */
+.close-btn:active {
+    transform: rotate(180deg) scale(0.9);
+}
+
+/* Efek ripple pada button */
+.popup-btn, .social-btn, .menu-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(0);
+    animation: btn-ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes btn-ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Peningkatan efek gradient background */
+#neonCanvas {
+    transition: filter 0.3s;
+}
+
+#neonCanvas.wave-effect {
+    filter: brightness(1.2) contrast(1.1);
+}
+
+/* Style untuk scrollbar di popup (jika konten panjang) */
+.about-text::-webkit-scrollbar {
+    width: 8px;
+}
+
+.about-text::-webkit-scrollbar-track {
+    background: rgba(0, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.about-text::-webkit-scrollbar-thumb {
+    background: #00ffff;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #00ffff;
+}
+
+.about-text::-webkit-scrollbar-thumb:hover {
+    background: #ff00ff;
+}
+
+/* Efek untuk link social */
+.social-btn {
+    position: relative;
+    isolation: isolate;
+}
+
+.social-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+}
+
+.social-btn:hover::after {
+    transform: translateX(100%);
+}
+
+/* Efek khusus untuk Roblox button dengan icon yang benar */
+.social-btn.roblox i {
+    font-family: "Font Awesome 6 Brands";
+}
+
+.social-btn.roblox i::before {
+    content: "\f17b"; /* Fallback ke gamepad */
+}
+
+/* Efek parallax ringan untuk profile */
+.profile-wrapper {
+    transition: transform 0.2s ease-out;
+}
+
+.profile-wrapper.moving {
+    transition: none;
+}
+
+/* Peningkatan accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Efek neon untuk text di popup */
+.popup-content p, .about-content p {
+    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* Hover effect untuk list items */
+.about-text li:hover {
+    color: #00ffff;
+    transform: translateX(5px);
+    transition: all 0.3s;
+    cursor: default;
+}
+
+/* Efek gradient border animasi untuk popup */
+.popup-content::before, .about-content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+    border-radius: 20px;
+    z-index: -1;
+    animation: border-rotate 3s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.popup-content:hover::before, .about-content:hover::before {
+    opacity: 1;
+}
+
+@keyframes border-rotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
 }
