@@ -1,7 +1,3 @@
-// =============================================
-// KODE ASLI (BACKGROUND ANIMATION - LEBIH RINGAN)
-// =============================================
-
 // Background Animation with Canvas
 const canvas = document.getElementById('neonCanvas');
 const ctx = canvas.getContext('2d');
@@ -13,15 +9,15 @@ function setCanvasSize() {
 }
 setCanvasSize();
 
-// Particle class for animation (LEBIH RINGAN - sedikit partikel)
+// Particle class for animation
 class Particle {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * 0.3; // Lebih lambat
-        this.vy = (Math.random() - 0.5) * 0.3; // Lebih lambat
-        this.radius = Math.random() * 1.5; // Lebih kecil
-        this.color = `hsl(${Math.random() * 60 + 180}, 100%, 60%)`;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.radius = Math.random() * 2;
+        this.color = `hsl(${Math.random() * 60 + 180}, 100%, 50%)`;
     }
 
     update() {
@@ -40,78 +36,26 @@ class Particle {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
         ctx.shadowColor = this.color;
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 10;
         ctx.fill();
     }
 }
 
-// Create particles - LEBIH SEDIKIT (50 instead of 100)
+// Create particles
 const particles = [];
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 100; i++) {
     particles.push(new Particle());
 }
-
-// =============================================
-// EFEK GELOMBANG SAAT KLIK
-// =============================================
-
-const waves = [];
-
-class Wave {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.radius = 10;
-        this.maxRadius = Math.min(canvas.width, canvas.height) * 0.3;
-        this.speed = 2;
-        this.alpha = 0.8;
-        this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`; // Warna neon random
-    }
-
-    update() {
-        this.radius += this.speed;
-        this.alpha -= 0.005;
-        return this.alpha > 0;
-    }
-
-    draw() {
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = 3;
-        ctx.shadowColor = this.color;
-        ctx.shadowBlur = 20;
-        ctx.stroke();
-        
-        // Lingkaran dalam
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius * 0.7, 0, Math.PI * 2);
-        ctx.strokeStyle = this.color;
-        ctx.lineWidth = 2;
-        ctx.shadowBlur = 15;
-        ctx.stroke();
-        ctx.restore();
-    }
-}
-
-// Event listener untuk klik
-canvas.addEventListener('click', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    waves.push(new Wave(x, y));
-});
 
 // Animation loop
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Draw gradient background (LEBIH RINGAN)
+    // Draw gradient background
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
     gradient.addColorStop(0, '#0a0a0f');
-    gradient.addColorStop(1, '#1a1a2f');
+    gradient.addColorStop(0.5, '#1a1a2f');
+    gradient.addColorStop(1, '#0a0a0f');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -121,14 +65,24 @@ function animate() {
         particle.draw();
     });
 
-    // Update dan draw waves
-    for (let i = waves.length - 1; i >= 0; i--) {
-        if (!waves[i].update()) {
-            waves.splice(i, 1);
-        } else {
-            waves[i].draw();
-        }
-    }
+    // Draw connections between nearby particles
+    particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach(p2 => {
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 100) {
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(0, 255, 255, ${0.2 - distance / 500})`;
+                ctx.lineWidth = 0.5;
+                ctx.shadowBlur = 5;
+                ctx.stroke();
+            }
+        });
+    });
 
     requestAnimationFrame(animate);
 }
@@ -137,10 +91,7 @@ animate();
 // Handle window resize
 window.addEventListener('resize', setCanvasSize);
 
-// =============================================
-// DOM ELEMENTS
-// =============================================
-
+// DOM Elements
 const menuToggle = document.getElementById('menuToggle');
 const popupMenu = document.getElementById('popupMenu');
 const closeMenu = document.getElementById('closeMenu');
@@ -183,11 +134,12 @@ aboutPopup.addEventListener('click', (e) => {
     }
 });
 
-// Social links
+// Social links - langsung mengarah ke app
 document.querySelectorAll('.social-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const href = btn.getAttribute('href');
         if (href) {
+            // Coba buka di app, fallback ke web
             window.location.href = href;
         }
     });
@@ -201,15 +153,16 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Mouse move effect for profile glow (LEBIH RINGAN)
+// Optional: Add mouse move effect for profile glow
 const profileWrapper = document.querySelector('.profile-wrapper');
 document.addEventListener('mousemove', (e) => {
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
     if (profileWrapper) {
         const glow = document.querySelector('.profile-glow');
         if (glow) {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            glow.style.transform = `translate(${mouseX * 5}px, ${mouseY * 5}px)`;
+            glow.style.transform = `translate(${mouseX * 10}px, ${mouseY * 10}px)`;
         }
     }
 });
