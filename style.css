@@ -345,6 +345,22 @@ body {
     box-shadow: 0 0 40px rgba(88, 101, 242, 0.8);
 }
 
+.social-btn.roblox {
+    background: #FF0045;  /* Warna merah khas Roblox */
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 0, 69, 0.5);
+}
+
+.social-btn.roblox:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 40px rgba(255, 0, 69, 0.8);
+}
+
+.social-btn.roblox i {
+    font-family: "Font Awesome 6 Brands";
+    content: "\f17b";  ·/ Ini akan menampilkan icon gamepad sebagai alternatif
+}
+
 /* About Text */
 .about-text {
     color: #fff;
