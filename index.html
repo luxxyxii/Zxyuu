@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Portfolio | Nama Anda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Canvas untuk Background Animasi -->
+    <canvas id="neonCanvas"></canvas>
+    
+    <!-- Konten Utama -->
+    <div class="container">
+        <!-- Foto Profil dengan Efek Neon -->
+        <div class="profile-wrapper">
+            <div class="profile-glow"></div>
+        <img src="https://i.imgur.com/G2B2ulB.jpeg" alt="Profile" class="profile-img" id="profileImg">
+      </div>
+        
+        <!-- Nama dengan Efek Neon -->
+        <h1 class="neon-text" data-text="NAMA ANDA">Zxyuu</h1>
+        <p class="title">Digital Creator & Developer</p>
+        
+        <!-- Tombol Menu Utama -->
+        <button class="menu-btn" id="menuToggle">
+            <i class="fas fa-bars"></i>
+            <span>MENU</span>
+        </button>
+        
+        <!-- Pop-up Menu -->
+        <div class="popup-menu" id="popupMenu">
+            <div class="popup-content">
+                <button class="close-btn" id="closeMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+                
+                <h2 class="popup-title">✨ NAVIGASI</h2>
+                
+                <!-- Tombol About Me -->
+                <button class="popup-btn about-btn" id="aboutBtn">
+                    <i class="fas fa-user"></i>
+                    About Me
+                </button>
+                
+                <!-- Social Media Section -->
+                <div class="social-section">
+                    <h3>Social Media</h3>
+                    <div class="social-buttons">
+                        <!-- Instagram Button -->
+                        <a href="https://www.instagram.com/zxyuu.21?igsh=YTVuZG9mN2JpOWp3&utm_source=qr" class="social-btn instagram" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        
+                        <!-- Discord Button -->
+                        <a href="https://discord.com/users/123456789" class="social-btn discord" target="_blank">
+                            <i class="fab fa-discord"></i>
+                            <span>Discord</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pop-up About Me -->
+    <div class="about-popup" id="aboutPopup">
+        <div class="about-content">
+            <button class="close-btn" id="closeAbout">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 class="neon-text-small">✨ ABOUT ME</h2>
+            
+            <div class="about-text">
+                <p>Halo! Saya seorang creative developer yang passionate tentang desain futuristik dan teknologi terbaru. Dengan latar belakang di bidang seni digital dan pengembangan web, saya menciptakan pengalaman visual yang immersive dan interaktif.</p>
+                
+                <p>🎯 Spesialisasi:</p>
+                <ul>
+                    <li>Front-end Development</li>
+                    <li>UI/UX Design</li>
+                    <li>Motion Graphics</li>
+                    <li>3D Design</li>
+                </ul>
+                
+                <p>💼 Pengalaman:</p>
+                <ul>
+                    <li>5+ tahun di industri kreatif</li>
+                    <li>50+ proyek completed</li>
+                    <li>10+ klien internasional</li>
+                </ul>
+                
+                <p>📧 Kontak: email@anda.com</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
