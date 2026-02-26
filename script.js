@@ -1,3 +1,7 @@
+// =============================================
+// KODE ASLI (YANG SUDAH ADA) - LETAKKAN PALING ATAS
+// =============================================
+
 // Background Animation with Canvas
 const canvas = document.getElementById('neonCanvas');
 const ctx = canvas.getContext('2d');
@@ -166,3 +170,176 @@ document.addEventListener('mousemove', (e) => {
         }
     }
 });
+
+// =============================================
+// KODE EFEK NAGA - TAMBAHKAN DI BAGIAN PALING BAWAH
+// =============================================
+
+// Deteksi apakah kursor sedang di atas tombol
+let isHoveringButton = false;
+let mouseX = 0, mouseY = 0;
+let lastNagaSpawn = 0;
+const nagaParticles = [];
+
+// Track semua elemen yang dianggap sebagai tombol
+const buttonElements = document.querySelectorAll('button, .social-btn, .menu-btn, .popup-btn, .roblox-btn, .close-btn');
+
+// Tambahkan event listeners untuk hover
+buttonElements.forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+        isHoveringButton = true;
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+        isHoveringButton = false;
+    });
+});
+
+// Track posisi mouse
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Class untuk partikel naga
+class NagaParticle {
+    constructor(x, y) {
+        this.x = x || Math.random() * canvas.width;
+        this.y = y || Math.random() * canvas.height;
+        this.size = Math.random() * 15 + 10;
+        this.speedX = (Math.random() - 0.5) * 2;
+        this.speedY = (Math.random() - 0.5) * 2;
+        this.color = `hsl(${Math.random() * 40 + 180}, 100%, 60%)`; // Warna neon biru/hijau
+        this.alpha = Math.random() * 0.5 + 0.3;
+        this.life = 1.0;
+        this.decay = 0.005 + Math.random() * 0.01;
+        this.wave = Math.random() * Math.PI * 2;
+        this.type = Math.floor(Math.random() * 3); // 0: kepala, 1: badan, 2: ekor
+    }
+
+    update() {
+        // Gerakan meliuk seperti naga
+        this.wave += 0.05;
+        this.x += this.speedX + Math.sin(this.wave) * 0.5;
+        this.y += this.speedY + Math.cos(this.wave) * 0.5;
+        
+        // Kurangi umur
+        this.life -= this.decay;
+        
+        // Perlambat gerakan
+        this.speedX *= 0.99;
+        this.speedY *= 0.99;
+    }
+
+    draw(ctx) {
+        ctx.save();
+        ctx.globalAlpha = this.life * this.alpha;
+        
+        // Efek glow
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 20;
+        
+        // Gambar partikel berbentuk naga (abstrak)
+        ctx.beginPath();
+        
+        if (this.type === 0) {
+            // Bentuk kepala naga
+            ctx.ellipse(this.x, this.y, this.size * 0.8, this.size * 0.6, 0, 0, Math.PI * 2);
+            // Mata
+            ctx.fillStyle = 'white';
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(this.x - this.size * 0.3, this.y - this.size * 0.2, this.size * 0.15, 0, Math.PI * 2);
+            ctx.arc(this.x + this.size * 0.3, this.y - this.size * 0.2, this.size * 0.15, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (this.type === 1) {
+            // Bentuk badan/sisik
+            for (let i = 0; i < 3; i++) {
+                const offsetX = (i - 1) * this.size * 0.4;
+                ctx.beginPath();
+                ctx.arc(this.x + offsetX, this.y, this.size * 0.3, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        } else {
+            // Bentuk ekor/api
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.x - this.size, this.y - this.size * 0.5);
+            ctx.lineTo(this.x - this.size, this.y + this.size * 0.5);
+            ctx.closePath();
+        }
+        
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        
+        // Tambahkan efek api di sekitar
+        ctx.shadowBlur = 30;
+        ctx.globalAlpha = this.life * 0.3;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        
+        ctx.restore();
+    }
+}
+
+// Simpan referensi ke fungsi animate asli
+const originalAnimate = animate;
+
+// Overwrite fungsi animate
+animate = function() {
+    // Panggil fungsi animate asli untuk menggambar partikel original
+    originalAnimate();
+    
+    // ===== EFEK NAGA =====
+    // Jika tidak hover button, spawn naga
+    if (!isHoveringButton) {
+        const currentTime = Date.now();
+        // Spawn naga setiap 500ms
+        if (currentTime - lastNagaSpawn > 500) {
+            lastNagaSpawn = currentTime;
+            
+            // Spawn beberapa partikel naga di sekitar mouse
+            for (let i = 0; i < 5; i++) {
+                const angle = (i / 5) * Math.PI * 2;
+                const radius = 50 + Math.random() * 50;
+                const x = mouseX + Math.cos(angle) * radius;
+                const y = mouseY + Math.sin(angle) * radius;
+                nagaParticles.push(new NagaParticle(x, y));
+            }
+            
+            // Spawn juga di area random untuk efek tersebar
+            for (let i = 0; i < 3; i++) {
+                nagaParticles.push(new NagaParticle());
+            }
+        }
+        
+        // Spawn partikel tambahan saat mouse bergerak
+        if (Math.random() < 0.1) {
+            nagaParticles.push(new NagaParticle(mouseX, mouseY));
+        }
+    }
+    
+    // Update dan draw naga particles
+    for (let i = nagaParticles.length - 1; i >= 0; i--) {
+        nagaParticles[i].update();
+        nagaParticles[i].draw(ctx);
+        
+        // Hapus partikel yang sudah mati
+        if (nagaParticles[i].life <= 0) {
+            nagaParticles.splice(i, 1);
+        }
+    }
+    
+    // Batasi jumlah partikel naga
+    if (nagaParticles.length > 100) {
+        nagaParticles.splice(0, 50);
+    }
+
+    requestAnimationFrame(animate);
+}
+
+// Jalankan animasi (panggil sekali untuk memulai)
+animate();
