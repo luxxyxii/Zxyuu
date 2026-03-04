@@ -310,24 +310,4 @@ profileImg.addEventListener('click', () => {
         profileEmoji.classList.remove('show');
     }, 2000);
 });
-// ===== THEME TOGGLE =====
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
 
-// load tema tersimpan
-if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light-theme');
-    themeToggle.textContent = '🌈 DARK MODE';
-}
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('light-theme');
-
-    if (body.classList.contains('light-theme')) {
-        themeToggle.textContent = '🌈 DARK MODE';
-        localStorage.setItem('theme', 'light');
-    } else {
-        themeToggle.textContent = '🌙 GANTI TEMA';
-        localStorage.setItem('theme', 'dark');
-    }
-});
