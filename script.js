@@ -138,9 +138,9 @@ function animate() {
     
     // Draw gradient background
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#0a0a0f');
-    gradient.addColorStop(0.5, '#1a1a2f');
-    gradient.addColorStop(1, '#0a0a0f');
+    gradient.addColorStop(0, currentBg[0]);
+    gradient.addColorStop(0.5, currentBg[1]);
+    gradient.addColorStop(1, currentBg[2]);
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
