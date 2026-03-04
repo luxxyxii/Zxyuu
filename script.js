@@ -138,9 +138,9 @@ function animate() {
     
     // Draw gradient background
     const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, currentBg[0]);
-    gradient.addColorStop(0.5, currentBg[1]);
-    gradient.addColorStop(1, currentBg[2]);
+    gradient.addColorStop(0, '#0a0a0f');
+    gradient.addColorStop(0.5, '#1a1a2f');
+    gradient.addColorStop(1, '#0a0a0f');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -309,23 +309,4 @@ profileImg.addEventListener('click', () => {
     emojiTimeout = setTimeout(() => {
         profileEmoji.classList.remove('show');
     }, 2000);
-});
-// ===== BACKGROUND TOGGLE =====
-const bgToggle = document.getElementById('bgToggle');
-
-const backgrounds = [
-    ['#0a0a0f', '#1a1a2f', '#0a0a0f'], // default
-    ['#120018', '#3a0ca3', '#120018'], // ungu neon
-    ['#001219', '#005f73', '#001219'], // biru cyber
-    ['#000000', '#111111', '#000000']  // dark minimal
-];
-
-let bgIndex = 0;
-
-// override gradient di animate()
-let currentBg = backgrounds[0];
-
-bgToggle.addEventListener('click', () => {
-    bgIndex = (bgIndex + 1) % backgrounds.length;
-    currentBg = backgrounds[bgIndex];
 });
