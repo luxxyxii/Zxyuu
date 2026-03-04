@@ -278,3 +278,9 @@ document.addEventListener('mousemove', (e) => {
         }
     }
 });
+const profileImg = document.getElementById("profileImg");
+const profileEmoji = document.getElementById("profileEmoji");
+
+profileImg.addEventListener("click", () => {
+  profileEmoji.classList.toggle("show");
+});
