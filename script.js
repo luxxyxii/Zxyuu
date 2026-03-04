@@ -278,9 +278,35 @@ document.addEventListener('mousemove', (e) => {
         }
     }
 });
-const profileImg = document.getElementById("profileImg");
-const profileEmoji = document.getElementById("profileEmoji");
+// ===== PROFILE EMOJI RANDOM =====
+const profileImg = document.getElementById('profileImg');
+const profileEmoji = document.getElementById('profileEmoji');
 
-profileImg.addEventListener("click", () => {
-  profileEmoji.classList.toggle("show");
+// daftar emoji (bebas nambah)
+const emojiList = [
+    '✨','🔥','💫','⚡','💎','🌙','🖤','👑','🌀','🌌','😎','🎮'
+];
+
+let emojiTimeout = null;
+
+profileImg.addEventListener('click', () => {
+    // ambil emoji random
+    const randomEmoji =
+        emojiList[Math.floor(Math.random() * emojiList.length)];
+
+    profileEmoji.textContent = randomEmoji;
+
+    // reset kalau masih aktif
+    profileEmoji.classList.remove('show');
+    clearTimeout(emojiTimeout);
+
+    // kasih delay kecil biar animasi ke-trigger ulang
+    setTimeout(() => {
+        profileEmoji.classList.add('show');
+    }, 50);
+
+    // hilang setelah 5 detik
+    emojiTimeout = setTimeout(() => {
+        profileEmoji.classList.remove('show');
+    }, 5000);
 });
