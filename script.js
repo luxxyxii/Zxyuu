@@ -305,8 +305,8 @@ profileImg.addEventListener('click', () => {
         profileEmoji.classList.add('show');
     }, 50);
 
-    // hilang setelah 3 detik
+    // hilang setelah 2 detik
     emojiTimeout = setTimeout(() => {
         profileEmoji.classList.remove('show');
-    }, 3000);
+    }, 2000);
 });
